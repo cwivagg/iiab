@@ -139,8 +139,16 @@
       url: "{{ matomo_host_url }}"
       ecommerce: 0
     body_format: form-urlencoded
-    status_code: 302
-  #register: matomo_first_website_setup
+    status_code: 200
+    return_content: true
+  register: matomo_first_website_setup
+
+- copy:
+    content: "{{ matomo_first_website_setup }}"
+    dest: ~/matomo_debug.txt
+
+- fail:
+    msg: Successfully captured Matomo debug and now failing.
 
 - name: Matomo Tracking Code
   uri:
